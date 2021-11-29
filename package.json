@@ -14,7 +14,7 @@
     "dev:docker:down": "cd docker/dev; docker-compose down",
     "dev:docker:up": "cd docker/dev; docker-compose up",
     "dev": "yarn dev:docker:up",
-    "dev:in-docker": "ts-node-dev -r tsconfig-paths/register --exit-child --respawn --poll --unhandled-rejections=strict  src/ts-start.ts",
+    "dev:in-docker": "ts-node-dev -r tsconfig-paths/register --inspect --exit-child --respawn --poll --unhandled-rejections=strict  src/ts-start.ts",
     "report-coverage": "codecov",
     "docs:build": "vuepress build docs",
     "docs:dev": "vuepress dev docs",
