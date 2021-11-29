@@ -8,12 +8,14 @@ import apple from './apple'
 import windowslive from './windowslive'
 import linkedin from './linkedin'
 import spotify from './spotify'
+import cap_facebook from './cap_facebook'
 
 const router = Router()
 
 github(router)
 google(router)
 facebook(router)
+cap_facebook(router)
 twitter(router)
 apple(router)
 windowslive(router)

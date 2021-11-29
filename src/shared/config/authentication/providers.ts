@@ -13,74 +13,87 @@ const PROVIDERS = {
     return !returnBooleanEnvVar(['GITHUB_ENABLE', 'GITHUB_ENABLED'], false)
       ? null
       : {
-          get clientID() {
-            return process.env.GITHUB_CLIENT_ID
-          },
-          get clientSecret() {
-            return process.env.GITHUB_CLIENT_SECRET
-          },
-          get authorizationURL() {
-            return process.env.GITHUB_AUTHORIZATION_URL
-          },
-          get tokenURL() {
-            return process.env.GITHUB_TOKEN_URL
-          },
-          get userProfileURL() {
-            return process.env.GITHUB_USER_PROFILE_URL
-          }
+        get clientID() {
+          return process.env.GITHUB_CLIENT_ID
+        },
+        get clientSecret() {
+          return process.env.GITHUB_CLIENT_SECRET
+        },
+        get authorizationURL() {
+          return process.env.GITHUB_AUTHORIZATION_URL
+        },
+        get tokenURL() {
+          return process.env.GITHUB_TOKEN_URL
+        },
+        get userProfileURL() {
+          return process.env.GITHUB_USER_PROFILE_URL
         }
+      }
   },
 
   get google() {
     return !returnBooleanEnvVar(['GOOGLE_ENABLE', 'GOOGLE_ENABLED'], false)
       ? null
       : {
-          get clientID() {
-            return process.env.GOOGLE_CLIENT_ID || ''
-          },
-          get clientSecret() {
-            return process.env.GOOGLE_CLIENT_SECRET || ''
-          }
+        get clientID() {
+          return process.env.GOOGLE_CLIENT_ID || ''
+        },
+        get clientSecret() {
+          return process.env.GOOGLE_CLIENT_SECRET || ''
         }
+      }
   },
 
   get facebook() {
     return !returnBooleanEnvVar(['FACEBOOK_ENABLE', 'FACEBOOK_ENABLED'], false)
       ? null
       : {
-          get clientID() {
-            return process.env.FACEBOOK_CLIENT_ID || ''
-          },
-          get clientSecret() {
-            return process.env.FACEBOOK_CLIENT_SECRET || ''
-          }
+        get clientID() {
+          return process.env.FACEBOOK_CLIENT_ID || ''
+        },
+        get clientSecret() {
+          return process.env.FACEBOOK_CLIENT_SECRET || ''
         }
+      }
+  },
+
+  get cap_facebook() {
+    return !returnBooleanEnvVar(['FACEBOOK_ENABLE', 'FACEBOOK_ENABLED'], false)
+      ? null
+      : {
+        get clientID() {
+          return process.env.FACEBOOK_CLIENT_ID || ''
+        },
+        get clientSecret() {
+          return process.env.FACEBOOK_CLIENT_SECRET || ''
+        }
+      }
   },
 
   get twitter() {
     return !returnBooleanEnvVar(['TWITTER_ENABLE', 'TWITTER_ENABLED'], false)
       ? null
       : {
-          get consumerKey() {
-            return process.env.TWITTER_CONSUMER_KEY || ''
-          },
-          get consumerSecret() {
-            return process.env.TWITTER_CONSUMER_SECRET || ''
-          }
+        get consumerKey() {
+          return process.env.TWITTER_CONSUMER_KEY || ''
+        },
+        get consumerSecret() {
+          return process.env.TWITTER_CONSUMER_SECRET || ''
         }
+      }
   },
 
   get linkedin() {
     return !returnBooleanEnvVar(['LINKEDIN_ENABLE', 'LINKEDIN_ENABLED'], false)
       ? null
       : {
-          get clientID() {
-            return process.env.LINKEDIN_CLIENT_ID || ''
-          },
-          get clientSecret() {
-            return process.env.LINKEDIN_CLIENT_SECRET || ''
-          }
+        get clientID() {
+          return process.env.LINKEDIN_CLIENT_ID || ''
+        },
+        get clientSecret() {
+          return process.env.LINKEDIN_CLIENT_SECRET || ''
         }
+      }
   },
 
   get apple() {
@@ -114,26 +127,26 @@ const PROVIDERS = {
     return !returnBooleanEnvVar(['WINDOWS_LIVE_ENABLE', 'WINDOWS_LIVE_ENABLED'], false)
       ? null
       : {
-          get clientID() {
-            return process.env.WINDOWS_LIVE_CLIENT_ID || ''
-          },
-          get clientSecret() {
-            return process.env.WINDOWS_LIVE_CLIENT_SECRET || ''
-          }
+        get clientID() {
+          return process.env.WINDOWS_LIVE_CLIENT_ID || ''
+        },
+        get clientSecret() {
+          return process.env.WINDOWS_LIVE_CLIENT_SECRET || ''
         }
+      }
   },
 
   get spotify() {
     return !returnBooleanEnvVar(['SPOTIFY_ENABLE', 'SPOTIFY_ENABLE'], false)
       ? null
       : {
-          get clientID() {
-            return process.env.SPOTIFY_CLIENT_ID || ''
-          },
-          get clientSecret() {
-            return process.env.SPOTIFY_CLIENT_SECRET || ''
-          }
+        get clientID() {
+          return process.env.SPOTIFY_CLIENT_ID || ''
+        },
+        get clientSecret() {
+          return process.env.SPOTIFY_CLIENT_SECRET || ''
         }
+      }
   }
 }
 

@@ -6,6 +6,8 @@
     "src/**/*.ts"
   ],
   "compilerOptions": {
+    "allowJs": true,
+    "checkJs": false,
     "lib": [
       "dom",
       "es2020"
