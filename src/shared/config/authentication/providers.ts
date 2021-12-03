@@ -58,16 +58,7 @@ const PROVIDERS = {
   },
 
   get cap_facebook() {
-    return !returnBooleanEnvVar(['FACEBOOK_ENABLE', 'FACEBOOK_ENABLED'], false)
-      ? null
-      : {
-        get clientID() {
-          return process.env.FACEBOOK_CLIENT_ID || ''
-        },
-        get clientSecret() {
-          return process.env.FACEBOOK_CLIENT_SECRET || ''
-        }
-      }
+    return this.facebook;
   },
 
   get twitter() {
@@ -121,6 +112,10 @@ const PROVIDERS = {
     } catch (e) {
       throw new Error(`Invalid Apple OAuth Key file.`)
     }
+  },
+
+  get cap_apple() {
+    return this.apple;
   },
 
   get windowslive() {

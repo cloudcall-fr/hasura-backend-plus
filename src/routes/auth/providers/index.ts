@@ -9,6 +9,7 @@ import windowslive from './windowslive'
 import linkedin from './linkedin'
 import spotify from './spotify'
 import cap_facebook from './cap_facebook'
+import cap_apple from './cap_apple'
 
 const router = Router()
 
@@ -18,6 +19,7 @@ facebook(router)
 cap_facebook(router)
 twitter(router)
 apple(router)
+cap_apple(router)
 windowslive(router)
 linkedin(router)
 spotify(router)
