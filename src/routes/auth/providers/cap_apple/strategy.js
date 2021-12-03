@@ -87,6 +87,8 @@ class AppleStrategy extends passport.Strategy {
                     const params = { grant_type: 'authorization_code' };
                     if (callbackURL) params.redirect_uri = callbackURL;
                     params.redirect_uri = req.headers.referer.replace(/\/$/, "");
+                    params.client_id = req.query.client_id;
+                    this._clientID = req.query.client_id;
 
                     const oauth2 = this._getOAuth2Client();
 
