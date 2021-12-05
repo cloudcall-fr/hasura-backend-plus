@@ -44,6 +44,10 @@ const PROVIDERS = {
       }
   },
 
+  get cap_google() {
+    return this.google;
+  },
+
   get facebook() {
     return !returnBooleanEnvVar(['FACEBOOK_ENABLE', 'FACEBOOK_ENABLED'], false)
       ? null

@@ -10,11 +10,13 @@ import linkedin from './linkedin'
 import spotify from './spotify'
 import cap_facebook from './cap_facebook'
 import cap_apple from './cap_apple'
+import cap_google from './cap_google'
 
 const router = Router()
 
 github(router)
 google(router)
+cap_google(router)
 facebook(router)
 cap_facebook(router)
 twitter(router)

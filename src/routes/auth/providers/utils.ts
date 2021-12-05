@@ -148,7 +148,8 @@ export const initProvider = <T extends Strategy>(
     | 'windowslive'
     | 'spotify'
     | 'cap_facebook'
-    | 'cap_apple',
+    | 'cap_apple'
+    | 'cap_google',
   strategy: Constructable<T>,
   settings: InitProviderSettings & ConstructorParameters<Constructable<T>>[0], // TODO: Strategy option type is not inferred correctly
   middleware?: RequestHandler
