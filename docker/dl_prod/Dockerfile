@@ -8,7 +8,7 @@ RUN yarn install
 RUN yarn build
 
 FROM node:14-alpine
-RUN apk add --no-cache vips
+RUN apk add --no-cache vips git
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 ENV PORT 3000
