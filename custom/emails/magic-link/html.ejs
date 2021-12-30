@@ -23,10 +23,11 @@
 <body>
   <h2>String table test</h2>
   <p>
-    FR: <%= await dl_string("edit.route") %>
+    language from accept-language header, cookie or URL param language (FR if not set): <br>
+    <%= await string("edit.route") %>
   </p>
   <p>
-    EN: <%= await dl_string("edit.route", "EN" ) %>
+    Force EN: <%= await string("edit.route", "EN" ) %>
   </p>
   <h2>Hello <%= display_name %>
   </h2>

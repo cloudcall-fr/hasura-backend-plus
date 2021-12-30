@@ -25,11 +25,21 @@ interface HasuraData {
   string: [{ value: string }]
 }
 
+export const langHint = { language: "", email: "" };
+
 class DlEmail extends Email {
 
   public async send(options: any): Promise<any> {
     options.locals.async = true;
-    options.locals.dl_string = async (code: string, language: string | null) => {
+    options.locals.string = async (code: string, language: string | null) => {
+      if (!language) {
+        if (langHint.language) {
+          language = langHint.language;
+        }
+        else if (langHint.email) {
+          //TODO query the db for the email user language (currrently not implemented);
+        }
+      }
       const hasura_data: HasuraData = await request(dlString, {
         code,
         ...language && { language }
