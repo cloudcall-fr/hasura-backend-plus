@@ -21,6 +21,13 @@
 </head>
 
 <body>
+  <h2>String table test</h2>
+  <p>
+    FR: <%= await dl_string("edit.route") %>
+  </p>
+  <p>
+    EN: <%= await dl_string("edit.route", "EN" ) %>
+  </p>
   <h2>Hello <%= display_name %>
   </h2>
   <p>Use this link to securely <%= action %>:</p>

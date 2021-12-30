@@ -311,3 +311,15 @@ export const updateAccountByEmail = gql`
     }
   }
 `
+
+export const dlString = gql`
+  query dlString($code: String, $language: String = "FR") {
+    string(
+      where: {
+        code: {_eq: $code}, 
+        language: {_eq: $language}
+      }) {
+      value
+    }
+  }
+`

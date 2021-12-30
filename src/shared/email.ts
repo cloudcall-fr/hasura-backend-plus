@@ -4,6 +4,9 @@ import Email from 'email-templates'
 import nodemailer from 'nodemailer'
 import path from 'path'
 
+import { dlString } from '@shared/queries'
+import { request } from '@shared/request'
+
 /**
  * SMTP transport.
  */
@@ -18,10 +21,35 @@ const transport = nodemailer.createTransport({
   authMethod: APPLICATION.SMTP_AUTH_METHOD
 })
 
+interface HasuraData {
+  string: [{ value: string }]
+}
+
+class DlEmail extends Email {
+
+  public async send(options: any): Promise<any> {
+    options.locals.async = true;
+    options.locals.dl_string = async (code: string, language: string | null) => {
+      const hasura_data: HasuraData = await request(dlString, {
+        code,
+        ...language && { language }
+      })
+      if (hasura_data.string.length) {
+        return hasura_data.string[0].value;
+      }
+      else {
+        console.warn(`[WARN] localisation issue: ${language} - ${code}`);
+        return code;
+      }
+    }
+    return super.send(options);
+  }
+}
+
 /**
  * Reusable email client.
  */
-export const emailClient = new Email({
+export const emailClient = new DlEmail({
   transport,
   message: { from: APPLICATION.SMTP_SENDER },
   send: APPLICATION.EMAILS_ENABLE,
