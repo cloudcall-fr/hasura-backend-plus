@@ -11,6 +11,7 @@ import { limiter } from './limiter'
 import router from './routes'
 import passport from 'passport'
 import { authMiddleware } from './middlewares/auth'
+import httpContext from 'express-http-context'
 
 const app = express()
 
@@ -41,6 +42,7 @@ if (COOKIES.SECRET) {
 }
 
 app.use(authMiddleware)
+app.use(httpContext.middleware as any)
 app.use(router)
 app.use(errors)
 

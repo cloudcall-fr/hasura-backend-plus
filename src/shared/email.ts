@@ -7,6 +7,8 @@ import path from 'path'
 import { dlString } from '@shared/queries'
 import { request } from '@shared/request'
 
+import httpContext from 'express-http-context'
+
 /**
  * SMTP transport.
  */
@@ -25,19 +27,14 @@ interface HasuraData {
   string: [{ value: string }]
 }
 
-export const langHint = { language: "", email: "" };
-
 class DlEmail extends Email {
 
   public async send(options: any): Promise<any> {
     options.locals.async = true;
     options.locals.string = async (code: string, language: string | null) => {
       if (!language) {
-        if (langHint.language) {
-          language = langHint.language;
-        }
-        else if (langHint.email) {
-          //TODO query the db for the email user language (currrently not implemented);
+        if (httpContext.get('language')) {
+          language = httpContext.get('language');
         }
       }
       const hasura_data: HasuraData = await request(dlString, {

@@ -13,29 +13,26 @@ import activateAccount from './activate'
 import deleteAccount from './delete'
 import magicLink from './magic-link'
 import { AUTHENTICATION } from '@shared/config'
-
-import { langHint } from '@shared/email'
+import httpContext from 'express-http-context'
 
 const router = Router()
 
 router.use(nocache())
 
 router.use((req, res, next) => {
+
   if (!AUTHENTICATION.ENABLED) {
     console.log(`Please set the AUTH_ENABLED env variable to true to use the auth routes.`)
     return res.boom.notFound()
   } else {
-    if (req.body?.email) {
-      langHint.email = req.body.email;
-    }
     if (req.headers['accept-language']) {
-      langHint.language = req.acceptsLanguages()[0].replace(/-.*/, "").toLocaleUpperCase();
+      httpContext.set('language', req.acceptsLanguages()[0].replace(/-.*/, "").toLocaleUpperCase());
     }
     if (req.headers['x-dl-language']) {
-      langHint.language = (req.headers['x-dl-language'] as string).toLocaleUpperCase();
+      httpContext.set('language', (req.headers['x-dl-language'] as string).toLocaleUpperCase());
     }
     if (req.params?.language) {
-      langHint.language = req.params?.language.toLocaleUpperCase();
+      httpContext.set('language', req.params?.language.toLocaleUpperCase());
     }
     return next()
   }
