@@ -323,3 +323,23 @@ export const dlString = gql`
     }
   }
 `
+
+export const dlInsertContact = gql`
+  mutation insertContact($contact: [contact_insert_input!]!) {
+  insert_contact(objects: $contact) {
+    returning {
+      id
+    }
+  }
+}
+`
+
+export const dlInsertRoute = gql`
+mutation insertRoute($route: [route_insert_input!]! ) {
+  insert_route(objects: $route) {
+    returning {
+      id
+    }
+  }
+}
+`

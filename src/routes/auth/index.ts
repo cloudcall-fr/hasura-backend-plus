@@ -34,6 +34,10 @@ router.use((req, res, next) => {
     if (req.params?.language) {
       httpContext.set('language', req.params?.language.toLocaleUpperCase());
     }
+    if (req.headers['x-forwarded-for']) {
+      httpContext.set('ip', req.headers['x-forwarded-for']);
+    }
+
     return next()
   }
 })

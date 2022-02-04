@@ -4,7 +4,7 @@ import { VerifyCallback } from 'passport-oauth2'
 import { Strategy } from 'passport'
 
 import { PROVIDERS, APPLICATION, REGISTRATION } from '@shared/config'
-import { insertAccount, insertAccountProviderToUser, selectAccountProvider } from '@shared/queries'
+import { dlInsertContact, insertAccount, insertAccountProviderToUser, selectAccountProvider } from '@shared/queries'
 import { getEndURLOperator, selectAccountByEmail } from '@shared/helpers'
 import { request } from '@shared/request'
 import {
@@ -16,6 +16,9 @@ import {
   InsertAccountProviderToUser
 } from '@shared/types'
 import { setRefreshToken } from '@shared/cookies'
+import httpContext from 'express-http-context'
+import { Reader } from '@maxmind/geoip2-node'
+import path from 'path'
 
 interface Constructable<T> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -83,7 +86,62 @@ const manageProviderStrategy = (
       // noop continue to register user
     }
 
+    const ip = httpContext.get('ip');
+    const dbpath = path.resolve(process.env.PWD || '.', 'custom/geoip');
+    const country = (await Reader.open(`${dbpath}/dbip-city-lite.mmdb`)).city(ip).country?.isoCode || 'FR';
+
+    interface ContactData {
+      insert_contact: {
+        returning: [{ id: number }]
+      }
+    }
+
+    const contact = {
+      name: display_name || email,
+      mail: email,
+      role: "company",
+      country,
+      lat: 0,
+      lng: 0,
+      street: "",
+      zipcode: "",
+      city: "",
+      phone: "",
+      company: "",
+      meta: {
+        end_time: "64800",
+        time_unit: "24",
+        start_time: "28800",
+        distance_unit: "km",
+        stop_duration: "300",
+        vehicle_type: "car",
+      },
+    }
+    const contact_data: ContactData = await request(dlInsertContact, {
+      contact,
+    })
+    const contact_id = contact_data.insert_contact.returning[0].id;
+
+    // interface RouteData {
+    //   insert_route: {
+    //     returning: [{ id: string }]
+    //   }
+    // }
+
+    // const route = {
+    //   _owner_id: contact_id,
+    //   title: "Nouveau trajet",
+    //   departure_p: new Date(new Date().valueOf() + contact.meta.stop_duration),
+    //   vehicle_type: contact.meta.vehicle_type,
+    //   stop_duration: contact.meta.stop_duration,
+    // }
+    // const route_data: RouteData = await request(dlInsertRoute, {
+    //   route,
+    // })
+    // const route_id = route_data.insert_route.returning[0].id;
+
     // register useruser, account, account_provider
+
     const account_data = {
       email,
       password_hash: null,
@@ -92,7 +150,7 @@ const manageProviderStrategy = (
       account_roles: {
         data: REGISTRATION.DEFAULT_ALLOWED_USER_ROLES.map((role) => ({ role }))
       },
-      user: { data: { display_name: display_name || email, avatar_url } },
+      user: { data: { display_name: display_name || email, avatar_url, contact_id } },
       account_providers: {
         data: [
           {
@@ -106,6 +164,8 @@ const manageProviderStrategy = (
     const hasura_account_provider_data = await request<InsertAccountData>(insertAccount, {
       account: account_data
     })
+
+    hasura_account_provider_data.insert_auth_accounts.returning[0].init_route = true;
 
     return done(null, hasura_account_provider_data.insert_auth_accounts.returning[0])
   }
@@ -131,6 +191,11 @@ const providerCallback = async (req: RequestExtended, res: Response): Promise<vo
 
   // Redirect user with refresh token.
   // This is both for when users log in and register.
+  if (account.init_route) {
+    return res.redirect(
+      `${APPLICATION.REDIRECT_URL_SUCCESS}${url_operator}refresh_token=${refresh_token}&action=newroute`
+    )
+  }
   return res.redirect(
     `${APPLICATION.REDIRECT_URL_SUCCESS}${url_operator}refresh_token=${refresh_token}`
   )

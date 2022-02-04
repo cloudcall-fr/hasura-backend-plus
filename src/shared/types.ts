@@ -72,6 +72,7 @@ export interface AccountData {
   password_hash: string
   email: string
   new_email?: string
+  init_route?: boolean
 }
 
 export interface QueryAccountData {
